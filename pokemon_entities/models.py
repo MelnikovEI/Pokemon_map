@@ -8,3 +8,14 @@ class Pokemon(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class PokemonEntity(models.Model):
+    """Pokemon coordinates"""
+    lat = models.FloatField()
+    lon = models.FloatField()
+    pokemon = models.ForeignKey(
+        Pokemon,
+        verbose_name='Покемон',
+        on_delete=models.CASCADE
+    )
