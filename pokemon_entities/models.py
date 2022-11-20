@@ -4,6 +4,7 @@ from django.db import models
 class PokemonElementType(models.Model):
     """Pokemon element types"""
     title = models.CharField('стихия', max_length=50, blank=True)
+    img = models.ImageField('изображение', upload_to='element_pictures', null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -36,7 +37,7 @@ class PokemonEntity(models.Model):
     )
     appeared_at = models.DateTimeField('момент появления на карте')
     disappeared_at = models.DateTimeField('момент исчезновления с карты')
-    level = models.IntegerField('уровень', null=True, blank=True)
+    level = models.IntegerField(verbose_name='уровень', null=True, blank=True)
     health = models.IntegerField('здоровье', null=True, blank=True)
     strength = models.IntegerField('сила', null=True, blank=True)
     defence = models.IntegerField('защита', null=True, blank=True)

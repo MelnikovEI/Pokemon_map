@@ -14,7 +14,7 @@ DEFAULT_IMAGE_URL = (
 )
 
 
-def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL):
+def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL, popup=''):
     icon = folium.features.CustomIcon(
         image_url,
         icon_size=(50, 50),
@@ -24,6 +24,7 @@ def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL):
         # Warning! `tooltip` attribute is disabled intentionally
         # to fix strange folium cyrillic encoding bug
         icon=icon,
+        popup=popup
     ).add_to(folium_map)
 
 
@@ -33,8 +34,14 @@ def show_all_pokemons(request):
         add_pokemon(
             folium_map, pokemon_entity.lat,
             pokemon_entity.lon,
-            request.build_absolute_uri(pokemon_entity.pokemon.photo.url)
-        )
+            request.build_absolute_uri(pokemon_entity.pokemon.photo.url),
+            popup=f"""Уровень: {pokemon_entity.level}
+            Здоровье: {pokemon_entity.health}
+            Сила: {pokemon_entity.strength}
+            Защита: {pokemon_entity.defence}
+            Выносливость: {pokemon_entity.stamina}
+            """
+            )
 
     pokemons_on_page = []
     for pokemon in Pokemon.objects.all():
@@ -69,6 +76,11 @@ def show_pokemon(request, pokemon_id):
         'title_jp': requested_pokemon.title_jp,
         'description': requested_pokemon.description,
     }
+    element_types = []
+    for element in requested_pokemon.element_type.all():
+        element_types.append({'title': element.title, 'img': request.build_absolute_uri(element.img.url)})
+    pokemon_on_page.update(element_type=element_types)
+
     if requested_pokemon.previous_evolution:
         img_url = ''
         if requested_pokemon.previous_evolution.photo:
