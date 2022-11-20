@@ -1,6 +1,14 @@
 from django.db import models
 
 
+class PokemonElementType(models.Model):
+    """Pokemon element types"""
+    title = models.CharField('стихия', max_length=50, blank=True)
+
+    def __str__(self):
+        return self.title
+
+
 class Pokemon(models.Model):
     """Pokemon model"""
     title = models.CharField('название', max_length=200)
@@ -11,6 +19,7 @@ class Pokemon(models.Model):
 
     previous_evolution = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True,
                                            related_name='next_evolution', verbose_name='Из кого эволюционировал')
+    element_type = models.ManyToManyField(PokemonElementType, blank=True, verbose_name='стихия')
 
     def __str__(self):
         return self.title
