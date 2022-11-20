@@ -5,6 +5,7 @@ class PokemonElementType(models.Model):
     """Pokemon element types"""
     title = models.CharField('стихия', max_length=50, blank=True)
     img = models.ImageField('изображение', upload_to='element_pictures', null=True, blank=True)
+    strong_against = models.ManyToManyField('self', symmetrical=False, blank=True, verbose_name='силён против')
 
     def __str__(self):
         return self.title

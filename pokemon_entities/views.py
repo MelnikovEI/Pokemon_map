@@ -78,7 +78,8 @@ def show_pokemon(request, pokemon_id):
     }
     element_types = []
     for element in requested_pokemon.element_type.all():
-        element_types.append({'title': element.title, 'img': request.build_absolute_uri(element.img.url)})
+        element_types.append({'title': element.title, 'img': request.build_absolute_uri(element.img.url),
+                              'strong_against': element.strong_against.all()})
     pokemon_on_page.update(element_type=element_types)
 
     if requested_pokemon.previous_evolution:
