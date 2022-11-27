@@ -30,12 +30,14 @@ def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL, popup=''):
 
 def show_all_pokemons(request):
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
-    for pokemon_entity in PokemonEntity.objects.filter(appeared_at__lt=localtime(), disappeared_at__gt=localtime()):
+    current_time = localtime()
+    for pokemon_entity in PokemonEntity.objects.filter(appeared_at__lt=current_time, disappeared_at__gt=current_time):
         add_pokemon(
             folium_map, pokemon_entity.lat,
             pokemon_entity.lon,
             request.build_absolute_uri(pokemon_entity.pokemon.photo.url),
-            popup=f"""Уровень: {pokemon_entity.level}
+            popup=f"""
+            Уровень: {pokemon_entity.level}
             Здоровье: {pokemon_entity.health}
             Сила: {pokemon_entity.strength}
             Защита: {pokemon_entity.defence}
@@ -103,8 +105,9 @@ def show_pokemon(request, pokemon_id):
         })
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
-    for pokemon_entity in PokemonEntity.objects.filter(pokemon=requested_pokemon, appeared_at__lt=localtime(),
-                                                       disappeared_at__gt=localtime()):
+    current_time = localtime()
+    for pokemon_entity in PokemonEntity.objects.filter(pokemon=requested_pokemon, appeared_at__lt=current_time,
+                                                       disappeared_at__gt=current_time):
         add_pokemon(
             folium_map, pokemon_entity.lat,
             pokemon_entity.lon,
