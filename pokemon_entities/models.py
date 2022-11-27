@@ -17,11 +17,11 @@ class Pokemon(models.Model):
     title_en = models.CharField('название на английском языке', max_length=200, blank=True)
     title_jp = models.CharField('название на японском языке', max_length=200, blank=True)
     description = models.TextField('описание', blank=True)
-    photo = models.ImageField('изображение', null=True, upload_to='pokemon_pictures', blank=True)
+    photo = models.ImageField('изображение', null=True, upload_to='pokemon_pictures')
 
     previous_evolution = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True,
                                            related_name='next_evolutions', verbose_name='Из кого эволюционировал')
-    element_type = models.ManyToManyField(PokemonElementType, blank=True, verbose_name='стихия')
+    element_types = models.ManyToManyField(PokemonElementType, blank=True, verbose_name='стихия')
 
     def __str__(self):
         return self.title

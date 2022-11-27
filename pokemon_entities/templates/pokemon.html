@@ -57,11 +57,11 @@
             </div>
           {% endif %}
         </div>
-        {% if pokemon.element_type %}
+        {% if pokemon.element_types %}
           <hr>
           <div class="mt-4">
             <h4>Стихии покемона</h4>
-            {% for element in pokemon.element_type%}
+            {% for element in pokemon.element_types%}
               <div>
                 <img class="pull-left mr-2 float-left" style="height:20px;width:20px;" src="{{element.img}}">
                 <p>{{element.title}}, силён против: {{element.strong_against|join:", "}}</p>
