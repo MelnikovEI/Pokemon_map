@@ -91,12 +91,12 @@ def show_pokemon(request, pokemon_id):
             'img_url': img_url,
             'title_ru': requested_pokemon.previous_evolution.title,
         })
-    descendant = requested_pokemon.next_evolution.all().first()
+    descendant = requested_pokemon.next_evolutions.all().first()
     if descendant:
         img_url = ''
         if descendant.photo:
             img_url = request.build_absolute_uri(descendant.photo.url)
-        pokemon_on_page.update(next_evolution={
+        pokemon_on_page.update(next_evolutions={
             'pokemon_id': descendant.id,
             'img_url': img_url,
             'title_ru': descendant.title,
