@@ -36,7 +36,7 @@ class PokemonEntity(models.Model):
         Pokemon,
         verbose_name='Покемон',
         on_delete=models.CASCADE,
-        related_name='pokemon_entities'
+        related_name='entities'
     )
     appeared_at = models.DateTimeField('момент появления на карте')
     disappeared_at = models.DateTimeField('момент исчезновления с карты')
